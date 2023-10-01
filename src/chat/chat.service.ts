@@ -1,6 +1,7 @@
 import { BookDto } from "src/dto";
-import { Body,Param ,Req} from "@nestjs/common";
+import { Body,Injectable,Param ,Req} from "@nestjs/common";
 import {Request,Response} from "express"
+@Injectable()
 export class ChatService{
     USERS=[]
     addBook(reqBody:object){
