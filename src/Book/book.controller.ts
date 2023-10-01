@@ -17,10 +17,12 @@ export class BookController{
     }
    @Get('/getallbook')
    getBook(){
-    throw new BadRequestException({
-        status:400,
-        message:"Custom error message!"
-    })
+
+    //throws custom exception 
+    // throw new BadRequestException({
+    //     status:400,
+    //     message:"Custom error message!"
+    // })
     return this.bookService.getBook()
    }
    @Get('/getById/:id')
