@@ -1,21 +1,28 @@
-import { Controller,Post,Delete,Put,Get,Body, Req,Res,Param,ParseIntPipe, ValidationPipe, BadRequestException } from "@nestjs/common";
+import { Controller,Post,Delete,Put,Get,Body, Req,Res,Param,ParseIntPipe, ValidationPipe,
+     BadRequestException, UseGuards, UseInterceptors } from "@nestjs/common";
 import { BookService } from "./book.service";
 import { BookDto } from "src/dto";
 import { Request,Response } from "express";
 import { BookPipe } from "src/pipes/book.pipe";
 import { error } from "console";
+import { BookGuard } from "./book.guard";
+import { BookInterceptor } from "./book.interceptor";
 // import { Request } from "supertest";
 @Controller('Book')
 export class BookController{
     constructor(private bookService: BookService) {}
     //Add a book
     @Post('/add')
-    addBook(@Body(new ValidationPipe()) book:BookDto,@Res() res:Response){
+    @UseInterceptors(BookInterceptor)
+    addBook(@Body(new ValidationPipe()) book:BookDto,@Res() res:Response,@Req() req:Request){
         // console.log("Request body=",req.body)
         // console.log("controller=",this.bookService.addBook(req.body))
+        console.log("Interceptor sets the req params=",req.query)
         this.bookService.addBook(book,res)
+        // return "Normal response"
     }
    @Get('/getallbook')
+   @UseGuards(new BookGuard)
    getBook(){
 
     //throws custom exception 
